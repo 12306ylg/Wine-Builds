@@ -61,9 +61,6 @@ export CUSTOM_SRC_PATH=""
 # Note that ccache requires additional storage space.
 # By default it has a 5 GB limit for its cache size.
 #
-# Make sure that ccache is installed before enabling this.
-export USE_CCACHE="false"
-
 export WINE_BUILD_OPTIONS="--without-ldap --without-oss --disable-winemenubuilder --disable-win16 --disable-tests"
 
 # A temporary directory where the Wine source code will be stored.
@@ -87,31 +84,11 @@ export CROSSCXX_X64="x86_64-w64-mingw32-g++"
 
 export CFLAGS_X32="-march=i686 -msse2 -mfpmath=sse -O3 -ftree-vectorize"
 export CFLAGS_X64="-march=x86-64 -msse3 -mfpmath=sse -O3 -ftree-vectorize"
-export LDFLAGS="-Wl,-O3,--sort-common,--as-needed"
+export LDFLAGS="-Wl,-O3,-flto,--sort-common,--as-needed"
 
 export CROSSCFLAGS_X32="${CFLAGS_X32}"
 export CROSSCFLAGS_X64="${CFLAGS_X64}"
 export CROSSLDFLAGS="${LDFLAGS}"
-
-if [ "$USE_CCACHE" = "true" ]; 键，然后
-	export CC="ccache ${CC}"
-	export CXX="ccache ${CXX}"
-
-	export i386_CC="ccache ${CROSSCC_X32}"
-	export x86_64_CC="ccache ${CROSSCC_X64}"
-
-	export CROSSCC_X32="ccache ${CROSSCC_X32}"
-	export CROSSCXX_X32="ccache ${CROSSCXX_X32}"
-	export CROSSCC_X64="ccache ${CROSSCC_X64}"
-	export CROSSCXX_X64="ccache ${CROSSCXX_X64}"
-
-	if [ -z "${XDG_CACHE_HOME}" ]; then
-		export XDG_CACHE_HOME="${HOME}"/.cache
-	fi
-
-	mkdir -p "${XDG_CACHE_HOME}"/ccache
-	mkdir -p "${HOME}"/.ccache
-fi
 
 build_with_bwrap () {
 	if [ "${1}" = "32" ]; then
