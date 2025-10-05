@@ -15,6 +15,7 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v11
         with:
+          name: bootstraps.yml
           workflow: bootstraps.yml
           workflow_conclusion: success
           path: /opt
