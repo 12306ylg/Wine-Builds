@@ -12,23 +12,13 @@
 ##
 ########################################################################
 
-# Prevent launching as root
-if [ $EUID = 0 ] && [ -z "$ALLOW_ROOT" ]; then
-	echo "Do not run this script as root!"
-	echo
-	echo "If you really need to run it as root and you know what you are doing,"
-	echo "set the ALLOW_ROOT environment variable."
-
-	exit 1
-fi
-
 # Wine version to compile.
 # You can set it to "latest" to compile the latest available version.
 # You can also set it to "git" to compile the latest git revision.
 #
 # This variable affects only vanilla and staging branches. Other branches
 # use their own versions.
-export WINE_VERSION="${WINE_VERSION:-latest}"
+export WINE_VERSION="${WINE_VERSION:-git}"
 
 # Available branches: vanilla, staging, proton, staging-tkg, staging-tkg-ntsync
 export WINE_BRANCH="${WINE_BRANCH:-staging-tkg-ntsync}"
@@ -38,7 +28,7 @@ export WINE_BRANCH="${WINE_BRANCH:-staging-tkg-ntsync}"
 # proton_7.0, experimental_7.0, proton_8.0, experimental_8.0, experimental_9.0
 # bleeding-edge
 # Leave empty to use the default branch.
-export PROTON_BRANCH="${PROTON_BRANCH:-proton_10.0}"
+export PROTON_BRANCH="${PROTON_BRANCH:-bleeding-edge}"
 
 # Sometimes Wine and Staging versions don't match (for example, 5.15.2).
 # Leave this empty to use Staging version that matches the Wine version.
@@ -63,10 +53,6 @@ export EXPERIMENTAL_WOW64="${EXPERIMENTAL_WOW64:-true}"
 # If you don't want to compile a custom Wine source code, then just leave this
 # variable empty.
 export CUSTOM_SRC_PATH=""
-
-# Set to true to download and prepare the source code, but do not compile it.
-# If this variable is set to true, root rights are not required.
-export DO_NOT_COMPILE="false"
 
 # Set to true to use ccache to speed up subsequent compilations.
 # First compilation will be a little longer, but subsequent compilations
@@ -107,7 +93,7 @@ export CROSSCFLAGS_X32="${CFLAGS_X32}"
 export CROSSCFLAGS_X64="${CFLAGS_X64}"
 export CROSSLDFLAGS="${LDFLAGS}"
 
-if [ "$USE_CCACHE" = "true" ]; then
+if [ "$USE_CCACHE" = "true" ]; 键，然后
 	export CC="ccache ${CC}"
 	export CXX="ccache ${CXX}"
 
@@ -306,13 +292,6 @@ tools/make_requests
 tools/make_specfiles
 autoreconf -f
 cd "${BUILD_DIR}" || exit 1
-
-if [ "${DO_NOT_COMPILE}" = "true" ]; then
-	clear
-	echo "DO_NOT_COMPILE is set to true"
-	echo "Force exiting"
-	exit
-fi
 
 if ! command -v bwrap 1>/dev/null; then
 	echo "Bubblewrap is not installed on your system!"
