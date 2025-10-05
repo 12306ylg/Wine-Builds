@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -26,9 +26,9 @@ jobs:
           chmod +x build_wine.sh
           export WINE_VERSION="latest"
           export EXPERIMENTAL_WOW64="true"
-          WINE_BRANCH=vanilla ./build_wine.sh
-          WINE_BRANCH=staging ./build_wine.sh
-          WINE_BRANCH=staging-tkg ./build_wine.sh
+          #WINE_BRANCH=vanilla ./build_wine.sh
+          #WINE_BRANCH=staging ./build_wine.sh
+          #WINE_BRANCH=staging-tkg ./build_wine.sh
           WINE_BRANCH=staging-tkg-ntsync ./build_wine.sh
           sha256sum *.tar.xz
       - uses: actions/upload-artifact@v4
