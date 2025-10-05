@@ -21,17 +21,17 @@ jobs:
           path: /opt
       - name: Build Wine
         run: |
-          sudo apt update
-          sudo apt install debootstrap perl git wget xz-utils bubblewrap autoconf
-          sudo tar -C /opt -xpf /opt/bootstraps.tar.xz
-          chmod +x build_wine.sh
-          export WINE_VERSION="git"
-          export EXPERIMENTAL_WOW64="true"
-          #WINE_BRANCH=vanilla ./build_wine.sh
-          #WINE_BRANCH=staging ./build_wine.sh
-          #WINE_BRANCH=staging-tkg ./build_wine.sh
-          WINE_BRANCH=staging-tkg-ntsync ./build_wine.sh
-          sha256sum *.tar.xz
+         sudo apt update
+         sudo apt install debootstrap perl git wget xz-utils bubblewrap autoconf
+         sudo tar -C /opt -xpf /opt/bootstraps.tar.xz
+         chmod +x build_wine.sh
+         export WINE_VERSION="git"
+         export EXPERIMENTAL_WOW64="true"
+         WINE_BRANCH=staging-tkg-ntsync ./build_wine.sh
+         # Move archives from possible locations to workspace
+         find $HOME $PWD -maxdepth 1 -name '*.tar.xz' -exec mv -t $PWD {} +
+         ls -l *.tar.xz
+         sha256sum *.tar.xz
       - uses: actions/upload-artifact@v4
         with:
           name: Wine-WoW64-NTSYNC
