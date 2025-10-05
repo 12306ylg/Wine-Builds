@@ -66,14 +66,14 @@ prepare_chroot () {
 }
 
 create_build_scripts () {
-	sdl2_version="2.26.4"
+	sdl2_version="3.2.24"
 	faudio_version="23.03"
 	vulkan_headers_version="1.4.328"
 	vulkan_loader_version="1.4.328"
 	spirv_headers_version="sdk-1.3.239.0"
  	libpcap_version="1.10.4"
   	libxkbcommon_version="1.6.0"
-   	python3_version="3.12.4"
+   	python3_version="3.13.7"
     meson_version="1.3.2"
     cmake_version="3.30.3"
     ccache_version="4.12.1"
@@ -127,8 +127,8 @@ wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${cmake
 wget -O ccache.tar.gz https://github.com/ccache/ccache/releases/download/v${ccache_version}/ccache-${ccache_version}.tar.gz
 wget -O libglvnd.tar.gz https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v${libglvnd_version}/libglvnd-v${libglvnd_version}.tar.gz
 wget -O bison.tar.xz https://ftp.gnu.org/gnu/bison/bison-${bison_version}.tar.xz
-wget -O /usr/include/linux/ntsync.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.15/main/include/uapi/linux/ntsync.h
-wget -O /usr/include/linux/userfaultfd.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.15/main/include/uapi/linux/userfaultfd.h
+wget -O /usr/include/linux/ntsync.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.17/main/include/uapi/linux/ntsync.h
+wget -O /usr/include/linux/userfaultfd.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.17/main/include/uapi/linux/userfaultfd.h
 if [ -d /usr/lib/i386-linux-gnu ]; then wget -O wine.deb https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/main/binary-i386/wine-stable_4.0.3~bionic_i386.deb; fi
 if [ -d /usr/lib/x86_64-linux-gnu ]; then wget -O wine.deb https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/main/binary-amd64/wine-stable_4.0.3~bionic_amd64.deb; fi
 git clone https://gitlab.freedesktop.org/gstreamer/gstreamer.git -b 1.22
