@@ -31,7 +31,7 @@ fi
 export WINE_VERSION="${WINE_VERSION:-latest}"
 
 # Available branches: vanilla, staging, proton, staging-tkg, staging-tkg-ntsync
-export WINE_BRANCH="${WINE_BRANCH:-staging}"
+export WINE_BRANCH="${WINE_BRANCH:-staging-tkg-ntsync}"
 
 # Available proton branches: proton_3.7, proton_3.16, proton_4.2, proton_4.11
 # proton_5.0, proton_5.13, experimental_5.13, proton_6.3, experimental_6.3
@@ -52,7 +52,7 @@ export STAGING_VERSION="${STAGING_VERSION:-}"
 export STAGING_ARGS="${STAGING_ARGS:-}"
 
 # Make 64-bit Wine builds with the new WoW64 mode (32-on-64)
-export EXPERIMENTAL_WOW64="${EXPERIMENTAL_WOW64:-false}"
+export EXPERIMENTAL_WOW64="${EXPERIMENTAL_WOW64:-true}"
 
 # Set this to a path to your Wine source code (for example, /home/username/wine-custom-src).
 # This is useful if you already have the Wine source code somewhere on your
@@ -91,17 +91,17 @@ export BOOTSTRAP_X32=/opt/chroots/bionic32_chroot
 
 export scriptdir="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-export CC="gcc-11"
-export CXX="g++-11"
+export CC="clang"
+export CXX="clang++"
 
 export CROSSCC_X32="i686-w64-mingw32-gcc"
 export CROSSCXX_X32="i686-w64-mingw32-g++"
 export CROSSCC_X64="x86_64-w64-mingw32-gcc"
 export CROSSCXX_X64="x86_64-w64-mingw32-g++"
 
-export CFLAGS_X32="-march=i686 -msse2 -mfpmath=sse -O2 -ftree-vectorize"
-export CFLAGS_X64="-march=x86-64 -msse3 -mfpmath=sse -O2 -ftree-vectorize"
-export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
+export CFLAGS_X32="-march=i686 -msse2 -mfpmath=sse -O3 -ftree-vectorize"
+export CFLAGS_X64="-march=x86-64 -msse3 -mfpmath=sse -O3 -ftree-vectorize"
+export LDFLAGS="-Wl,-O3,--sort-common,--as-needed"
 
 export CROSSCFLAGS_X32="${CFLAGS_X32}"
 export CROSSCFLAGS_X64="${CFLAGS_X64}"
