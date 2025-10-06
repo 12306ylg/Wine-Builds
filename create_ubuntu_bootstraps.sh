@@ -74,8 +74,8 @@ create_build_scripts () {
  	libpcap_version="1.10.4"
   	libxkbcommon_version="1.6.0"
    	python3_version="3.13.7"
-    meson_version="1.3.2"
-    cmake_version="3.30.3"
+    meson_version="1.9.1"
+    cmake_version="4.1.2"
     ccache_version="4.12.1"
     libglvnd_version="1.7.0"
 	bison_version="3.8.2"
@@ -153,6 +153,7 @@ export CC=clang
 export CXX=clang++
 export CFLAGS="-O3"
 export CXXFLAGS="-O3"
+export LDFLAGS="-flto"
 cd cmake-${cmake_version}
 ./bootstrap --parallel=$(nproc)
 make -j$(nproc) install
