@@ -115,21 +115,6 @@ if ! command -v git 1>/dev/null; then
 	exit 1
 fi
 
-if ! command -v autoconf 1>/dev/null; then
-	echo "Please install autoconf and run the script again"
-	exit 1
-fi
-
-if ! command -v wget 1>/dev/null; then
-	echo "Please install wget and run the script again"
-	exit 1
-fi
-
-if ! command -v xz 1>/dev/null; then
-	echo "Please install xz and run the script again"
-	exit 1
-fi
-
 # Replace the "latest" parameter with the actual latest Wine version
 if [ "${WINE_VERSION}" = "latest" ] || [ -z "${WINE_VERSION}" ]; then
 	WINE_VERSION="$(wget -q -O - "https://raw.githubusercontent.com/wine-mirror/wine/master/VERSION" | tail -c +14)"
@@ -137,7 +122,7 @@ fi
 
 # Stable and Development versions have a different source code location
 # Determine if the chosen version is stable or development
-if [ "$(echo "$WINE_VERSION" | cut -d "." -f2 | cut -c1)" = "0" ]; then
+if [ "$(echo "$WINE_VERSION" | cut -d "." -f2 | cut -c1)" = "0" ]; 键，然后
 	WINE_URL_VERSION=$(echo "$WINE_VERSION" | cut -d "." -f 1).0
 else
 	WINE_URL_VERSION=$(echo "$WINE_VERSION" | cut --d "." -f 1).x
