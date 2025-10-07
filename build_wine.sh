@@ -61,7 +61,7 @@ export CUSTOM_SRC_PATH=""
 # Note that ccache requires additional storage space.
 # By default it has a 5 GB limit for its cache size.
 #
-export WINE_BUILD_OPTIONS="--without-ldap --without-oss --disable-winemenubuilder --disable-win16 --disable-tests"
+export WINE_BUILD_OPTIONS="--without-oss --disable-winemenubuilder --disable-tests"
 
 # A temporary directory where the Wine source code will be stored.
 # Do not set this variable to an existing non-empty directory!
@@ -194,7 +194,7 @@ else
 		tar xf "wine-${WINE_VERSION}.tar.xz"
 		mv "wine-${WINE_VERSION}" wine
 	fi
-
+	patch -d wine -Np1 < "${scriptdir}"/ntsync-fix-32-bit-processes.patch && echo "Applied fix for 32-bit processes for NTSYNC"
 	if [ "${WINE_BRANCH}" = "staging" ]; then
 		if [ "${WINE_VERSION}" = "git" ]; then
 			git clone https://github.com/wine-staging/wine-staging wine-staging-"${WINE_VERSION}"
