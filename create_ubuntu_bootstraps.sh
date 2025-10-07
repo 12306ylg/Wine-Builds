@@ -66,7 +66,7 @@ prepare_chroot () {
 }
 
 create_build_scripts () {
-	sdl2_version="3.2.24"
+	sdl2_version="2.26.4"
 	faudio_version="23.03"
 	vulkan_headers_version="1.4.328"
 	vulkan_loader_version="1.4.328"
@@ -74,8 +74,8 @@ create_build_scripts () {
  	libpcap_version="1.10.4"
   	libxkbcommon_version="1.6.0"
    	python3_version="3.13.7"
-    meson_version="1.9.1"
-    cmake_version="4.1.2"
+    meson_version="1.3.2"
+    cmake_version="3.30.3"
     ccache_version="4.12.1"
     libglvnd_version="1.7.0"
 	bison_version="3.8.2"
@@ -86,6 +86,7 @@ create_build_scripts () {
 apt-get update
 apt-get -y install nano
 apt-get -y install locales
+echo ru_RU.UTF_8 UTF-8 >> /etc/locale.gen
 echo en_US.UTF_8 UTF-8 >> /etc/locale.gen
 locale-gen
 echo deb '${CHROOT_MIRROR}' ${CHROOT_DISTRO} main universe > /etc/apt/sources.list
@@ -102,7 +103,7 @@ add-apt-repository -y ppa:ubuntu-toolchain-r/test
 add-apt-repository -y ppa:cybermax-dexter/mingw-w64-backport
 apt-get update
 apt-get -y build-dep wine-development libsdl2 libvulkan1 python3
-apt-get -y install ccache clang clang wget git gcc-mingw-w64 g++-mingw-w64 ninja-build
+apt-get -y install ccache clang wget git gcc-mingw-w64 g++-mingw-w64 ninja-build
 apt-get -y install libxpresent-dev libjxr-dev libusb-1.0-0-dev libgcrypt20-dev libpulse-dev libudev-dev libsane-dev libv4l-dev libkrb5-dev libgphoto2-dev liblcms2-dev libcapi20-dev
 apt-get -y install libjpeg62-dev samba-dev
 apt-get -y install libpcsclite-dev libcups2-dev
@@ -114,7 +115,7 @@ apt-get -y autoclean
 export PATH="/usr/local/bin:\${PATH}"
 mkdir /opt/build_libs
 cd /opt/build_libs
-wget -O sdl.tar.gz https://www.libsdl.org/release/SDL3-${sdl2_version}.tar.gz
+wget -O sdl.tar.gz https://www.libsdl.org/release/SDL2-${sdl2_version}.tar.gz
 wget -O faudio.tar.gz https://github.com/FNA-XNA/FAudio/archive/${faudio_version}.tar.gz
 wget -O vulkan-loader.tar.gz https://github.com/KhronosGroup/Vulkan-Loader/archive/v${vulkan_loader_version}.tar.gz
 wget -O vulkan-headers.tar.gz https://github.com/KhronosGroup/Vulkan-Headers/archive/v${vulkan_headers_version}.tar.gz
@@ -127,12 +128,12 @@ wget -O cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${cmake
 wget -O ccache.tar.gz https://github.com/ccache/ccache/releases/download/v${ccache_version}/ccache-${ccache_version}.tar.gz
 wget -O libglvnd.tar.gz https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v${libglvnd_version}/libglvnd-v${libglvnd_version}.tar.gz
 wget -O bison.tar.xz https://ftp.gnu.org/gnu/bison/bison-${bison_version}.tar.xz
-wget -O /usr/include/linux/ntsync.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.17/main/include/uapi/linux/ntsync.h
-wget -O /usr/include/linux/userfaultfd.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.17/main/include/uapi/linux/userfaultfd.h
+wget -O /usr/include/linux/ntsync.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.15/main/include/uapi/linux/ntsync.h
+wget -O /usr/include/linux/userfaultfd.h https://raw.githubusercontent.com/zen-kernel/zen-kernel/refs/heads/6.15/main/include/uapi/linux/userfaultfd.h
 if [ -d /usr/lib/i386-linux-gnu ]; then wget -O wine.deb https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/main/binary-i386/wine-stable_4.0.3~bionic_i386.deb; fi
 if [ -d /usr/lib/x86_64-linux-gnu ]; then wget -O wine.deb https://dl.winehq.org/wine-builds/ubuntu/dists/bionic/main/binary-amd64/wine-stable_4.0.3~bionic_amd64.deb; fi
 git clone https://gitlab.freedesktop.org/gstreamer/gstreamer.git -b 1.22
-wget https://raw.githubusercontent.com/12306ylg/Wine-Builds/refs/heads/master/mingw-w64-build
+wget https://raw.githubusercontent.com/Kron4ek/Wine-Builds/refs/heads/master/mingw-w64-build
 tar xf sdl.tar.gz
 tar xf faudio.tar.gz
 tar xf vulkan-loader.tar.gz
@@ -153,7 +154,6 @@ export CC=clang
 export CXX=clang++
 export CFLAGS="-O3"
 export CXXFLAGS="-O3"
-export LDFLAGS="-flto"
 cd cmake-${cmake_version}
 ./bootstrap --parallel=$(nproc)
 make -j$(nproc) install
